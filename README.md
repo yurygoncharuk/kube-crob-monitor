@@ -16,4 +16,4 @@ Python script for minitoring kubernetes cronjobs and exposing next metris in pro
 2) Run `make release` to build and push new image to registry.
 3) Run `kubectl apply -f kube-cron-monitor.yaml` to deploy the app to kubernetes
 
-The metrics will be available by url (kube-cron-monitor:8080) inside the cluster.
+The metrics will be available by url [kube-cron-monitor:8080](http://kube-cron-monitor:8080) inside the cluster.
