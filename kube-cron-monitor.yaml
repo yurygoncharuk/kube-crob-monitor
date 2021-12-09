@@ -1,0 +1,61 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cronjob-list
+rules:
+- apiGroups: ["batch"]
+  resources: ["cronjobs", "jobs"]
+  verbs: ["get", "list"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cronjob-list
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cronjob-list
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-cron-monitor
+  labels:
+    app: kube-cron-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-cron-monitor
+  template:
+    metadata:
+      labels:
+        app: kube-cron-monitor
+    spec:
+      containers:
+      - name: kube-cron-monitor
+        image: kube-cron-monitor:1.0.1
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-cron-monitor
+  labels:
+    app: kube-cron-monitor
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: kube-cron-monitor
