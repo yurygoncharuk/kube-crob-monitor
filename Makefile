@@ -7,7 +7,7 @@ default: build
 
 build-env:
 	@echo "--- Build Environment ---"
-	@echo "BUILD_RELEASE_VERSION: $(EPIC_BUILD_RELEASE_VERSION)"
+	@echo "BUILD_RELEASE_VERSION: $(BUILD_RELEASE_VERSION)"
 	@echo ""
 
 build: Dockerfile build-env docker-gc docker-version
